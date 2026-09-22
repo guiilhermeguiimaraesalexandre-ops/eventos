@@ -1,0 +1,17 @@
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+
+export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { session, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+        <div className="spin-lg" />
+      </div>
+    );
+  }
+
+  if (!session) return <Navigate to="/login" replace />;
+  return <>{children}</>;
+}
